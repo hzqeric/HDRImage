@@ -22,9 +22,9 @@ public:
 	void loadFromStream(std::istream& stream) override;
 	PAPImage* convertToIDF(imageDataFormat IDF) override;
 
-	float getPixel_Red_16f(const unsigned short x, const unsigned short y) override;	
-	float getPixel_Blue_16f(const unsigned short x, const unsigned short y) override;
-	float getPixel_Green_16f(const unsigned short x, const unsigned short y) override;
+	float getPixel_Red_16f(const unsigned short x, const unsigned short y);	
+	float getPixel_Blue_16f(const unsigned short x, const unsigned short y);
+	float getPixel_Green_16f(const unsigned short x, const unsigned short y);
 
 	/* Setter for the red channel of the pixel(x,y). */
 	void setPixel_Red_8i(const unsigned short x, const unsigned short y, const unsigned char red);

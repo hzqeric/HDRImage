@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "PAPImage_16f.h"
 #include "PAPImage_24i.h"
 #include "PAPImage_32i.h"
 #include <fstream>
@@ -70,6 +71,17 @@ PAPImage* PAPImage_24i::convertToIDF(imageDataFormat IDF) {
 		}
 
 		break;
+	case IDF16fpp: 
+		PAPImage_16f* res16f = new PAPImage_16f(getWidth(), getHeight());
+		result = res16f;
+		for (int x = 0; x < getWidth(); x++) {
+			for (int y = 0; y < getHeight(); y++) {
+				res16f->setPixel_Red_16f(x, y, ((float) getPixel_Red_8i(x, y)) / 255);
+				res16f->setPixel_Blue_16f(x, y, ((float) getPixel_Blue_8i(x, y)) / 255);
+				res16f->setPixel_Green_16f(x, y, ((float) getPixel_Green_8i(x, y)) / 255);
+			}
+		}
+		break;
 	}
 
 	if (result == NULL) {
@@ -92,7 +104,7 @@ unsigned int PAPImage_24i::getIndex(unsigned short x, unsigned short y) {
 void PAPImage_24i::saveToFile(std::string fileName) {
 
 	BITMAPFILEHEADER fileHeader;
-	fileHeader.bfType = 0x4d42;
+	fileHeader.bfType = PAPImage::BMP_Magic;
 	fileHeader.bfSize = getDataSize() + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 	fileHeader.bfReserved1 = 0;
 	fileHeader.bfReserved2 = 0;
@@ -134,18 +146,17 @@ void PAPImage_24i::loadFromStream(std::istream& stream) {
 		throw PAPException(ss.str());
 	}
 
-	// Not a 32 bit BMP
-	if (infoHeader.biBitCount != 24) {
-		stringstream ss = stringstream();
+	// Not a 24 bit BMP
+	if (infoHeader.biBitCount != 24) {		
 		throw PAPException("Stream doesn\'t doesn't contain 24 bit BITMAP.");
 	}
 
 	// Verifying size and rescaling if needed.
-	if ((infoHeader.biWidth != _width) | (infoHeader.biHeight != _height)) {
+	if ((infoHeader.biWidth != _width) || (infoHeader.biHeight != _height)) {
 		cerr << "Warning: PAPImage_24i.loadFromStream: File dimensions doesn\'t match objects. File: " << infoHeader.biWidth << "x" << infoHeader.biHeight << " Object: " << _width << "x" << _height << ". Will rescale image.\n ";
 		setDimensions(infoHeader.biWidth, infoHeader.biHeight);
 	}
-	stream.read((char*)_data, max(getDataSize(), fileHeader.bfSize));
+	stream.read((char*)_data, max(getDataSize(), getDataSize()));
 }
 
 unsigned char PAPImage_24i::getPixel_Red_8i(const unsigned short x, const unsigned short y) {

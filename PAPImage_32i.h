@@ -35,11 +35,10 @@ public:
 	unsigned char getPixel_Blue_8i(const unsigned short x, const unsigned short y);
 	/* Access a unsinged char (native) for the green channel for the pixel(x,y)*/
 	unsigned char getPixel_Green_8i(const unsigned short x, const unsigned short y);
-
-	// inherited from PAPImage
-	float getPixel_Red_16f(const unsigned short x, const unsigned short y) override;
-	float getPixel_Blue_16f(const unsigned short x, const unsigned short y) override;
-	float getPixel_Green_16f(const unsigned short x, const unsigned short y) override;
+		
+	float getPixel_Red_16f(const unsigned short x, const unsigned short y);
+	float getPixel_Blue_16f(const unsigned short x, const unsigned short y);
+	float getPixel_Green_16f(const unsigned short x, const unsigned short y);
 protected:
 	Pixel32i* _data;
 	unsigned int getIndex(unsigned short x, unsigned short y);

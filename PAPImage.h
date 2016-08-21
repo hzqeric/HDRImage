@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-enum imageDataFormat { IDF24i, IDF32i, IDF16fpp, IDF32fpp, IDF64fpp};
+enum imageDataFormat {IDF24i, IDF32i, IDF16fpp, IDF32fpp, IDF64fpp};
 
 // Bitmap headers
 # pragma pack (1)
@@ -30,6 +30,18 @@ typedef struct tagBITMAPINFOHEADER {
 } BITMAPINFOHEADER;
 # pragma pack ()
 
+# pragma pack (1)
+typedef struct tagHDRHEADER {
+	unsigned __int32 hhType;					// Magic number 0x7675 
+	unsigned __int32 hhHeaderSize;				// Size of headers, or what position the image data starts.
+	unsigned __int32 hhFileSize;				// Size of file, including header.
+	unsigned __int8  hhColourComponentBitCount; // Number of bits per colour component (16, 32,or 64);
+	unsigned __int8	 hhChannelCount;			// Number of channels in file (3 = RGB, 1 = monochrome and so on).	
+	unsigned __int32 hhWidth;					// Image width in pixels.
+	unsigned __int32 hhHeight;				    // Image height in pixels.
+} HDRHEADER;
+# pragma pack ()
+
 std::string IDFtoStr(imageDataFormat IDF);
 
 class PAPImage
@@ -49,14 +61,10 @@ public:
 	virtual void loadFromStream(std::istream& stream) = 0;
 	
 	imageDataFormat getImageDataFormat();
-	/* Returns a clamped float of the red channel at the pixel(x,y). */
-	virtual float getPixel_Red_16f(const unsigned short x, const unsigned short y) = 0;
-	/* Returns a clamped float of the blue channel at the pixel(x,y). */
-	virtual float getPixel_Blue_16f(const unsigned short x, const unsigned short y) = 0;
-	/* Returns a clamped float of the green channel at the pixel(x,y). */
-	virtual float getPixel_Green_16f(const unsigned short x, const unsigned short y) = 0;
-		
+
 	virtual PAPImage* convertToIDF(imageDataFormat IDF) = 0;
+	static const int HDRmagic = 0x7675;
+	static const int BMP_Magic = 0x4d42;
 protected:
 	unsigned short _width;
 	unsigned short _height;

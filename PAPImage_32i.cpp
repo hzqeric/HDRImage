@@ -54,7 +54,7 @@ void PAPImage_32i::loadFromStream(std::istream& stream) {
 	}
 
 	// Verifying size and rescaling if needed.
-	if ((infoHeader.biWidth != _width) | (infoHeader.biHeight != _height)) {
+	if ((infoHeader.biWidth != _width) || (infoHeader.biHeight != _height)) {
 		cerr << "Warning: PAPImage_32i.loadFromStream: File dimensions doesn\'t match objects. File: " << infoHeader.biWidth << "x" << infoHeader.biHeight << " Object: " << _width << "x" << _height << ". Will rescale image.\n ";
 		setDimensions(infoHeader.biWidth, infoHeader.biHeight);
 	}
@@ -105,7 +105,7 @@ PAPImage* PAPImage_32i::convertToIDF(imageDataFormat IDF) {
 void PAPImage_32i::saveToFile(std::string fileName) {
 	
 	BITMAPFILEHEADER fileHeader;
-	fileHeader.bfType = 0x4d42;
+	fileHeader.bfType = PAPImage::BMP_Magic;
 	fileHeader.bfSize = getDataSize() + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 	fileHeader.bfReserved1 = 0;
 	fileHeader.bfReserved2 = 0;

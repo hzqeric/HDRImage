@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="PAPException.h" />
     <ClInclude Include="PAPImage.h" />
+    <ClInclude Include="PAPImage_16f.h" />
     <ClInclude Include="PAPImage_24i.h" />
     <ClInclude Include="PAPImage_32i.h" />
     <ClInclude Include="stdafx.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="HDRImage.cpp" />
     <ClCompile Include="PAPException.cpp" />
     <ClCompile Include="PAPImage.cpp" />
+    <ClCompile Include="PAPImage_16f.cpp" />
     <ClCompile Include="PAPImage_24i.cpp" />
     <ClCompile Include="PAPImage_32i.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -2,6 +2,7 @@
 #include "PAPImage.h"
 #include "PAPImage_32i.h"
 #include "PAPImage_24i.h"
+#include "PAPImage_16f.h"
 #include "PAPException.h"
 
 #include <fstream>
@@ -100,6 +101,18 @@ PAPImage* PAPImageFactory::loadFromStream(std::istream& stream) {
 
 		// //
 		
+	}
+	// attempt to read in HDR format instead.
+	HDRHEADER HdrHeader;
+	stream.read((char*)&HdrHeader, sizeof(HdrHeader));
+	stream.seekg(0);
+
+	if (HdrHeader.hhType == PAPImage::HDRmagic) {
+		if ((HdrHeader.hhColourComponentBitCount == 16) && (HdrHeader.hhChannelCount == 3)) {
+			PAPImage_16f* res16f = new PAPImage_16f(HdrHeader.hhWidth, HdrHeader.hhHeight);
+			res16f->loadFromStream(stream);
+			return res16f;
+		}
 	}
 
 
