@@ -1,20 +1,20 @@
 #include "stdafx.h"
-#include "PAPImage_16f.h"
+#include "PAPImage_32f.h"
 #include <fstream>
 #include <sstream>
 #include "PAPException.h"
 
-PAPImage_16f::PAPImage_16f(const unsigned short width, const unsigned short height) 
-: PAPImage(width, height, IDF16fpp){
+PAPImage_32f::PAPImage_32f(const unsigned short width, const unsigned short height) 
+: PAPImage(width, height, IDF32fpp){
 	_data = NULL;
 	setDimensions(width, height);
 }
 
-PAPImage_16f::~PAPImage_16f() {
+PAPImage_32f::~PAPImage_32f() {
 	delete _data;
 }
 
-void PAPImage_16f::setDimensions(const unsigned short width, const unsigned short height) {
+void PAPImage_32f::setDimensions(const unsigned short width, const unsigned short height) {
 	PAPImage::setDimensions(width, height);
 
 	if (_data != NULL) {
@@ -24,7 +24,7 @@ void PAPImage_16f::setDimensions(const unsigned short width, const unsigned shor
 	memset(_data, 0, getDataSize()); // Paint it black.
 }
 
-void PAPImage_16f::saveToFile(std::string fileName) {
+void PAPImage_32f::saveToFile(std::string fileName) {
 	HDRHEADER HDRHeader;
 	HDRHeader.hhType = HDRmagic;
 	HDRHeader.hhChannelCount = 3;
@@ -41,7 +41,7 @@ void PAPImage_16f::saveToFile(std::string fileName) {
 	file.close();
 }
 
-void PAPImage_16f::loadFromStream(std::istream& stream) {
+void PAPImage_32f::loadFromStream(std::istream& stream) {
 	HDRHEADER HDRHeader;
 	stream.read((char*)&HDRHeader, sizeof(HDRHeader));
 
@@ -56,47 +56,41 @@ void PAPImage_16f::loadFromStream(std::istream& stream) {
 	stream.read((char*)_data, getDataSize());
 }
 
-float PAPImage_16f::getPixel_Red_16f(const unsigned short x, const unsigned short y) {
+float PAPImage_32f::getPixel_Red_16f(const unsigned short x, const unsigned short y) const{
 	return _data[getIndex(x, y)].rgbRed;
 }
 
-float PAPImage_16f::getPixel_Blue_16f(const unsigned short x, const unsigned short y) {
+float PAPImage_32f::getPixel_Blue_16f(const unsigned short x, const unsigned short y) const{
 	return _data[getIndex(x, y)].rgbBlue;
 }
 
-float PAPImage_16f::getPixel_Green_16f(const unsigned short x, const unsigned short y) {
+float PAPImage_32f::getPixel_Green_16f(const unsigned short x, const unsigned short y) const{
 	return _data[getIndex(x, y)].rgbGreen;
 }
 
-void PAPImage_16f::setPixel_Red_16f(const unsigned short x, const unsigned short y, float red) {
+void PAPImage_32f::setPixel_Red_16f(const unsigned short x, const unsigned short y, float red) {
 	_data[getIndex(x, y)].rgbRed = red;
 }
 
-void PAPImage_16f::setPixel_Blue_16f(const unsigned short x, const unsigned short y, float blue) {
+void PAPImage_32f::setPixel_Blue_16f(const unsigned short x, const unsigned short y, float blue) {
 	_data[getIndex(x, y)].rgbBlue = blue;
 }
 
-void PAPImage_16f::setPixel_Green_16f(const unsigned short x, const unsigned short y, float green) {
+void PAPImage_32f::setPixel_Green_16f(const unsigned short x, const unsigned short y, float green) {
 	_data[getIndex(x, y)].rgbGreen = green;
 }
 
-void PAPImage_16f::setPixel_16f(const unsigned short x, const unsigned short y, Pixel16f pixel) {
+void PAPImage_32f::setPixel_16f(const unsigned short x, const unsigned short y, Pixel16f pixel) {
 	int index = (x, y);
 	_data[index].rgbRed = pixel.rgbRed;
 	_data[index].rgbBlue = pixel.rgbBlue;
 	_data[index].rgbGreen = pixel.rgbGreen;
 }
 
-PAPImage* PAPImage_16f::convertToIDF(imageDataFormat IDF){
-
-	// TODO
-	return NULL;
-}
-
-unsigned int PAPImage_16f::getDataSize(){
+unsigned int PAPImage_32f::getDataSize() const{
 	return _width * _height * sizeof(Pixel16f);
 }
 
-unsigned int PAPImage_16f::getIndex(unsigned short x, unsigned short y){
+unsigned int PAPImage_32f::getIndex(unsigned short x, unsigned short y) const{
 	return y * _width + x;
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-enum imageDataFormat {IDF24i, IDF32i, IDF16fpp, IDF32fpp, IDF64fpp};
+enum imageDataFormat {IDF24i, IDF32i, IDF32fpp, IDF64fpp};
 
 // Bitmap headers
 # pragma pack (1)
@@ -52,17 +52,15 @@ public:
 	/*Resets the image size. Implementation are required to reallocate for new size.*/
 	virtual void setDimensions(const unsigned short width, const unsigned short height);
 	/*Returns the width of the image in pixels.*/
-	unsigned short getWidth();
+	unsigned short getWidth() const;
 	/*Returns the height of the image in pixels.*/
-	unsigned short getHeight();
+	unsigned short getHeight() const;
 	/*Saves the image in whatever format it currently has.*/
 	virtual void saveToFile(std::string fileName) = 0;
 	/*Load the data from a istream.*/
 	virtual void loadFromStream(std::istream& stream) = 0;
 	
-	imageDataFormat getImageDataFormat();
-
-	virtual PAPImage* convertToIDF(imageDataFormat IDF) = 0;
+	imageDataFormat getImageDataFormat();		
 	static const int HDRmagic = 0x7675;
 	static const int BMP_Magic = 0x4d42;
 protected:
@@ -76,6 +74,8 @@ public:
 	PAPImageFactory();
 	virtual ~PAPImageFactory();
 	PAPImage* createImage(const unsigned short width, const unsigned short height, const imageDataFormat IDF);
+	PAPImage* createImageFromImage(PAPImage& src, const imageDataFormat targetIDF);
 	PAPImage* loadFromFile(std::string fileName);
 	PAPImage* loadFromStream(std::istream& stream);
 };
+

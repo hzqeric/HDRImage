@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include <iostream>
 #include "PAPImage.h"
-#include "PAPImage_16f.h"
+#include "PAPImage_32f.h"
 #include "PAPImage_32i.h"
 #include "PAPImage_24i.h"
 
@@ -42,13 +42,13 @@ int main()
 	PAPImage* img24 = factory->loadFromFile("testfile24.bmp");
 
 	cout << "  24bit image loaded.\n";
-	img = img24->convertToIDF(IDF32i);
+	img = factory->createImageFromImage(*img24, IDF32i);
 	cout << "  Saving 32bit iamge.\n";
 	img->saveToFile("testfile32.bmp");
 
 	cout << "\n----- HDR format.-----\n";
 	cout << "Converting 24 bit image to 3*16b float foramt. \n";
-	PAPImage* img16f = img24->convertToIDF(IDF16fpp);
+	PAPImage* img16f = factory->createImageFromImage(*img24, IDF32fpp);
 	cout << "saving to file float16.hdr\n";
 	img16f->saveToFile("float16.hdr");
 	cout << "deleing flot image object.\n";

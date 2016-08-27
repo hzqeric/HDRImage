@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "PAPImage_16f.h"
+#include "PAPImage_32f.h"
 #include "PAPImage_24i.h"
 #include "PAPImage_32i.h"
 #include <fstream>
@@ -29,75 +29,23 @@ void PAPImage_24i::setDimensions(const unsigned short width, const unsigned shor
 	memset(_data, 0, getDataSize()); // Paint it black.
 }
 
-float PAPImage_24i::getPixel_Red_16f(const unsigned short x, const unsigned short y) {
+float PAPImage_24i::getPixel_Red_16f(const unsigned short x, const unsigned short y) const{
 	return _data[getIndex(x, y)].rgbRed;
 }
 
-float PAPImage_24i::getPixel_Blue_16f(const unsigned short x, const unsigned short y) {
+float PAPImage_24i::getPixel_Blue_16f(const unsigned short x, const unsigned short y) const{
 	return _data[getIndex(x, y)].rgbBlue;
 }
 
-float PAPImage_24i::getPixel_Green_16f(const unsigned short x, const unsigned short y) {
+float PAPImage_24i::getPixel_Green_16f(const unsigned short x, const unsigned short y) const{
 	return _data[getIndex(x, y)].rgbRed;
 }
 
-PAPImage* PAPImage_24i::convertToIDF(imageDataFormat IDF) {
-	PAPImage* result = NULL;
-	PAPImage_24i* res24i;
-	PAPImage_32i* res32i;
-
-	switch (IDF) {
-	case IDF24i:
-		res24i = new PAPImage_24i(getWidth(), getHeight());
-		result = res24i;
-		for (int x = 0; x < getWidth(); x++) {
-			for (int y = 0; y < getHeight(); y++) {
-				res24i->setPixel_Red_8i(x, y, getPixel_Red_8i(x, y));
-				res24i->setPixel_Blue_8i(x, y, getPixel_Blue_8i(x, y));
-				res24i->setPixel_Green_8i(x, y, getPixel_Green_8i(x, y));
-			}
-		}
-
-		break;
-	case IDF32i:
-		res32i = new PAPImage_32i(getWidth(), getHeight());
-		result = res32i;
-		for (int x = 0; x < getWidth(); x++) {
-			for (int y = 0; y < getHeight(); y++) {
-				res32i->setPixel_Red_8i(x, y, getPixel_Red_8i(x, y));
-				res32i->setPixel_Blue_8i(x, y, getPixel_Blue_8i(x, y));
-				res32i->setPixel_Green_8i(x, y, getPixel_Green_8i(x, y));
-			}
-		}
-
-		break;
-	case IDF16fpp: 
-		PAPImage_16f* res16f = new PAPImage_16f(getWidth(), getHeight());
-		result = res16f;
-		for (int x = 0; x < getWidth(); x++) {
-			for (int y = 0; y < getHeight(); y++) {
-				res16f->setPixel_Red_16f(x, y, ((float) getPixel_Red_8i(x, y)) / 255);
-				res16f->setPixel_Blue_16f(x, y, ((float) getPixel_Blue_8i(x, y)) / 255);
-				res16f->setPixel_Green_16f(x, y, ((float) getPixel_Green_8i(x, y)) / 255);
-			}
-		}
-		break;
-	}
-
-	if (result == NULL) {
-		stringstream ss = stringstream();
-		ss << "PAPImage_24i cannot be converted into " << IDFtoStr(IDF) << ".";
-		throw PAPException(ss.str());
-	}
-	return result;
-}
-
-
-unsigned int PAPImage_24i::getDataSize() {
+unsigned int PAPImage_24i::getDataSize() const{
 	return sizeof(Pixel24i) * (_width + _width % 4) * _height;
 }
 
-unsigned int PAPImage_24i::getIndex(unsigned short x, unsigned short y) {
+unsigned int PAPImage_24i::getIndex(unsigned short x, unsigned short y) const{
 	return (_width + _width % 4) * y + x;
 }
 
@@ -159,15 +107,15 @@ void PAPImage_24i::loadFromStream(std::istream& stream) {
 	stream.read((char*)_data, max(getDataSize(), getDataSize()));
 }
 
-unsigned char PAPImage_24i::getPixel_Red_8i(const unsigned short x, const unsigned short y) {
+unsigned char PAPImage_24i::getPixel_Red_8i(const unsigned short x, const unsigned short y) const{
 	return _data[getIndex(x, y)].rgbRed;
 }
 
-unsigned char PAPImage_24i::getPixel_Blue_8i(const unsigned short x, const unsigned short y) {
+unsigned char PAPImage_24i::getPixel_Blue_8i(const unsigned short x, const unsigned short y) const{
 	return _data[getIndex(x, y)].rgbBlue;
 }
 
-unsigned char PAPImage_24i::getPixel_Green_8i(const unsigned short x, const unsigned short y) {
+unsigned char PAPImage_24i::getPixel_Green_8i(const unsigned short x, const unsigned short y) const{
 	return _data[getIndex(x, y)].rgbGreen;
 }
 
