@@ -4,60 +4,69 @@
 #include <iostream>
 #include "PAPImage.h"
 #include "PAPImage_32f.h"
-#include "PAPImage_32i.h"
-#include "PAPImage_24i.h"
+#include "PAPImage_8i.h"
 
 using namespace std;
 
 int main()
 {	
 	cout << "Creating test image: testFile.bmp.\n";
-	PAPImageFactory *factory = new PAPImageFactory();
-	PAPImage_32i* img32 = (PAPImage_32i*) factory->createImage(63, 64, IDF32i);
+	PAPImageFactory *factory = new PAPImageFactory();	
+	PAPImage_8i* img8 = (PAPImage_8i*) factory->createImageFromFile("testFile.bmp");	
 
-	for (int i = 10; i < 54; i++) {
-		img32->setPixel_Blue_8i(i, 10, 255);
-		img32->setPixel_Green_8i(10, i, 255);
-	}
+	img8->setPixel_Green_8i(0, 0, 255);
+	img8->setPixel_Green_8i(0, 1, 255);
+	img8->setPixel_Green_8i(0, img8->getHeight() - 1, 255);
+
+	img8->setPixel_Blue_8i(1, 0, 255);
+	img8->setPixel_Blue_8i(1, 1, 255);
+	img8->setPixel_Blue_8i(1, img8->getHeight() - 1, 255);
+
+	img8->setPixel_Green_8i(4, 0, 255);
+	img8->setPixel_Green_8i(4, 1, 255);
+	img8->setPixel_Green_8i(4, img8->getHeight() - 1, 255);
+
+	img8->setPixel_Blue_8i(5, 0, 255);
+	img8->setPixel_Blue_8i(5, 1, 255);
+	img8->setPixel_Blue_8i(5, img8->getHeight() - 1, 255);
+
+	img8->setPixel_Red_8i(img8->getWidth() - 1, img8->getHeight() - 1, 255);
+	img8->setPixel_Red_8i(img8->getWidth() - 1, 0, 255);
+
+	cout << "Saving test image: testFile1_24.bmp.\n";
+	img8->saveToFile("testFile1_24.bmp");	
+
+	cout << "Createing test image" << endl;
+	PAPImage_8i* img2 = (PAPImage_8i*) factory->createImage(336, 279, IDF8i3);
+
+	img2->setPixel_Green_8i(0, 0, 255);
+	img2->setPixel_Green_8i(0, 1, 255);
+	img2->setPixel_Green_8i(0, img2->getHeight() - 1, 255);
+
+	img2->setPixel_Blue_8i(1, 0, 255);
+	img2->setPixel_Blue_8i(1, 1, 255);
+	img2->setPixel_Blue_8i(1, img2->getHeight() - 1, 255);
+
+	img2->setPixel_Green_8i(4, 0, 255);
+	img2->setPixel_Green_8i(4, 1, 255);
+	img2->setPixel_Green_8i(4, img2->getHeight() - 1, 255);
+
+	img2->setPixel_Blue_8i(5, 0, 255);
+	img2->setPixel_Blue_8i(5, 1, 255);
+	img2->setPixel_Blue_8i(5, img2->getHeight() - 1, 255);
+
+	img2->setPixel_Red_8i(img2->getWidth() - 1, img2->getHeight() - 1, 255);
+	img2->setPixel_Red_8i(img2->getWidth() - 1, 0, 255);
+
+	img2->saveToFile("TestImage_cust.bmp");	
 	
-	for (int x = 0; x < img32->getWidth() -1; x++) {
-		img32->setPixel_Red_8i(x, 0, 255);
-		img32->setPixel_Red_8i(x, img32->getHeight() -1, 255);	
-	}
+	PAPImage_8i* img3 = (PAPImage_8i*) factory->createImageFromImage(*img2, IDF8i4);
+	img3->saveToFile("test32.bmp");
 
-	cout << "Saving result to file.\n";
-	img32->saveToFile("testFile.bmp");
+	delete img3;
+	delete img8;
+	delete img2;
 	
-	cout << "Deleteing object.\n";
-	delete img32;
-
-	cout << "Testing to load from file: testFile2.bmp.\n";
-	PAPImage* img = factory->loadFromFile("testfile2.bmp");
-
-	cout << "image loaged. saving result to new file: testfile3.bmp.\n";		
-	img->saveToFile("testFile3.bmp");
-	delete img; 
-	
-	cout << "Attempting to convert 24bit to 32bit. \n";
-	PAPImage* img24 = factory->loadFromFile("testfile24.bmp");
-
-	cout << "  24bit image loaded.\n";
-	img = factory->createImageFromImage(*img24, IDF32i);
-	cout << "  Saving 32bit iamge.\n";
-	img->saveToFile("testfile32.bmp");
-
-	cout << "\n----- HDR format.-----\n";
-	cout << "Converting 24 bit image to 3*16b float foramt. \n";
-	PAPImage* img16f = factory->createImageFromImage(*img24, IDF32fpp);
-	cout << "saving to file float16.hdr\n";
-	img16f->saveToFile("float16.hdr");
-	cout << "deleing flot image object.\n";
-	delete img16f;
-
-	cout << "loading 16bit float image from file.\n";
-	img16f = factory->loadFromFile("float16.hdr");
-
-
 	delete factory;
     return 0;
 }

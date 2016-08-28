@@ -41,7 +41,7 @@ void PAPImage_32f::saveToFile(std::string fileName) {
 	file.close();
 }
 
-void PAPImage_32f::loadFromStream(std::istream& stream) {
+void PAPImage_32f::loadFromStream(std::ifstream& stream) {
 	HDRHEADER HDRHeader;
 	stream.read((char*)&HDRHeader, sizeof(HDRHeader));
 

@@ -147,9 +147,8 @@
   <ItemGroup>
     <ClInclude Include="PAPException.h" />
     <ClInclude Include="PAPImage.h" />
-    <ClInclude Include="PAPImage_16f.h" />
-    <ClInclude Include="PAPImage_24i.h" />
-    <ClInclude Include="PAPImage_32i.h" />
+    <ClInclude Include="PAPImage_32f.h" />
+    <ClInclude Include="PAPImage_8i.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -157,9 +156,8 @@
     <ClCompile Include="HDRImage.cpp" />
     <ClCompile Include="PAPException.cpp" />
     <ClCompile Include="PAPImage.cpp" />
-    <ClCompile Include="PAPImage_16f.cpp" />
-    <ClCompile Include="PAPImage_24i.cpp" />
-    <ClCompile Include="PAPImage_32i.cpp" />
+    <ClCompile Include="PAPImage_32f.cpp" />
+    <ClCompile Include="PAPImage_8i.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

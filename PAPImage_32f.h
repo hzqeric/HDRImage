@@ -16,7 +16,7 @@ public:
 	
 	void setDimensions(const unsigned short width, const unsigned short height) override;	
 	void saveToFile(std::string fileName) override;	
-	void loadFromStream(std::istream& stream) override;
+	void loadFromStream(std::ifstream& stream) override;
 
 	float getPixel_Red_16f(const unsigned short x, const unsigned short y) const;
 	float getPixel_Blue_16f(const unsigned short x, const unsigned short y) const;

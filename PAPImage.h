@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-enum imageDataFormat {IDF24i, IDF32i, IDF32fpp, IDF64fpp};
+enum imageDataFormat {IDF8i3, IDF8i4, IDF32fpp, IDF64fpp};
 
 // Bitmap headers
 # pragma pack (1)
@@ -58,9 +58,9 @@ public:
 	/*Saves the image in whatever format it currently has.*/
 	virtual void saveToFile(std::string fileName) = 0;
 	/*Load the data from a istream.*/
-	virtual void loadFromStream(std::istream& stream) = 0;
+	virtual void loadFromStream(std::ifstream& stream) = 0;
 	
-	imageDataFormat getImageDataFormat();		
+	imageDataFormat getImageDataFormat() const;		
 	static const int HDRmagic = 0x7675;
 	static const int BMP_Magic = 0x4d42;
 protected:
@@ -74,8 +74,8 @@ public:
 	PAPImageFactory();
 	virtual ~PAPImageFactory();
 	PAPImage* createImage(const unsigned short width, const unsigned short height, const imageDataFormat IDF);
-	PAPImage* createImageFromImage(PAPImage& src, const imageDataFormat targetIDF);
-	PAPImage* loadFromFile(std::string fileName);
-	PAPImage* loadFromStream(std::istream& stream);
+	PAPImage* createImageFromImage(const PAPImage& src, const imageDataFormat targetIDF);
+	PAPImage* createImageFromFile(std::string fileName);
+	PAPImage* createImageFromStream(std::ifstream& stream);
 };
 

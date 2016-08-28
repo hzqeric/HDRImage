@@ -2,28 +2,31 @@
 #include "PAPImage.h"
 
 # pragma pack (1)
-typedef struct tagPixel24i {
+typedef struct tagPixel24bi {
 	unsigned __int8 rgbBlue;
 	unsigned __int8 rgbGreen;
 	unsigned __int8 rgbRed;	
-} Pixel24i;
+} Pixel24bi;
 # pragma pack ()
 
+typedef struct tagPixel32bi {
+	unsigned __int8 rgbBlue;
+	unsigned __int8 rgbGreen;
+	unsigned __int8 rgbRed;
+	unsigned __int8 rgbReserved;
+} Pixel32bi;
 
 
-class PAPImage_24i :
+
+class PAPImage_8i :
 	public PAPImage
 {
 public:
-	PAPImage_24i(const unsigned short width, const unsigned short height);
-	virtual ~PAPImage_24i();
+	PAPImage_8i(const unsigned short width, const unsigned short height, const imageDataFormat IDF);
+	virtual ~PAPImage_8i();
 	void setDimensions(const unsigned short width, const unsigned short height) override;
 	void saveToFile(std::string fileName) override;
-	void loadFromStream(std::istream& stream) override;	
-
-	float getPixel_Red_16f(const unsigned short x, const unsigned short y) const;	
-	float getPixel_Blue_16f(const unsigned short x, const unsigned short y) const;
-	float getPixel_Green_16f(const unsigned short x, const unsigned short y) const;
+	void loadFromStream(std::ifstream& stream) override;	
 
 	/* Setter for the red channel of the pixel(x,y). */
 	void setPixel_Red_8i(const unsigned short x, const unsigned short y, const unsigned char red);
@@ -41,9 +44,11 @@ public:
 
 
 protected:
-	Pixel24i* _data;
+	unsigned __int8* _data;
 	/*Takes into consideration the per row padding.*/
 	unsigned int getIndex(unsigned short x, unsigned short y) const;
-	unsigned int getDataSize() const;
+	unsigned int _dataSize;
+	unsigned short _channelCount;
+	unsigned int _rowSize;	
 };
 

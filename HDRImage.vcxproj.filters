@@ -27,16 +27,13 @@
     <ClInclude Include="PAPImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PAPImage_32i.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PAPException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PAPImage_24i.h">
+    <ClInclude Include="PAPImage_32f.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PAPImage_16f.h">
+    <ClInclude Include="PAPImage_8i.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,16 +47,13 @@
     <ClCompile Include="PAPImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PAPImage_32i.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PAPException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PAPImage_24i.cpp">
+    <ClCompile Include="PAPImage_32f.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PAPImage_16f.cpp">
+    <ClCompile Include="PAPImage_8i.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

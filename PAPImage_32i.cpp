@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PAPImage_32i.h"
-#include "PAPImage_24i.h"
+#include "PAPImage_8i.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -8,7 +8,7 @@
 #include <algorithm>
 
 PAPImage_32i::PAPImage_32i(const unsigned short width, const unsigned short height)
-: PAPImage(width, height, IDF32i)
+: PAPImage(width, height, IDF8i4c)
 {
 	_data = NULL;
 	setDimensions(width, height);
@@ -26,12 +26,12 @@ void PAPImage_32i::setDimensions(const unsigned short width, const unsigned shor
 	}	
 
 	PAPImage::setDimensions(width, height);
-	_data = new Pixel32i[width * height];
+	_data = new Pixel32bi[width * height];
 	memset(_data, 0, getDataSize()); // Paint it black.
 }
 
 unsigned int PAPImage_32i::getDataSize() const{
-	return sizeof(Pixel32i) * _width * _height;
+	return sizeof(Pixel32bi) * _width * _height;
 }
 
 void PAPImage_32i::loadFromStream(std::istream& stream) {
